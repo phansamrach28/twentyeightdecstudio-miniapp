@@ -74,8 +74,8 @@ $("joinForm").addEventListener("submit", async (e) => {
 
   const result = $("formResult");
   const button = $("joinForm").querySelector('button[type="submit"]');
-  const tg = window.Telegram?.WebApp;
-  const initData = tg?.initData || window.telegramInitData || "";
+const tg = window.Telegram?.WebApp;
+const initData = tg?.initData || "";
 
   result.classList.remove("hidden");
 
