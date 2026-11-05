@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f7f4">
+<title>TwentyEightDecStudio | Learn Design</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+  const telegramApp = window.Telegram?.WebApp;
+  if (telegramApp) {
+    telegramApp.ready();
+    telegramApp.expand();
+    window.telegramInitData = telegramApp.initData;
+  }
+</script>
+<style>
+:root{
+  --bg:#f7f7f4;--paper:#fff;--ink:#20231f;--muted:#72766e;--line:#e7e8e2;
+  --olive:#4c5945;--olive2:#69765f;--pale:#edf0e9;--dark:#20231f;
+  --gold:#d5b56b;--radius:13px;--shadow:0 12px 34px rgba(28,34,25,.07)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+.wrap{max-width:1180px;min-height:100vh;margin:auto;background:var(--bg);padding-bottom:30px}
+.header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(247,247,244,.96);position:sticky;top:0;z-index:20;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:40px;height:40px;background:var(--dark);color:white;display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.6px}
+.brandname{font-size:13px;font-weight:800;letter-spacing:-.25px}
+.eyebrow{font-size:9px;letter-spacing:1.8px;font-weight:750;color:var(--muted);text-transform:uppercase}
+.lang{display:flex;gap:5px}
+.lang button{border:1px solid var(--line);background:transparent;border-radius:6px;padding:7px 10px;font-size:10px;color:var(--muted)}
+.lang button.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.tabs{display:flex;gap:24px;padding:0 28px;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:15}
+.tab{border:0;border-bottom:2px solid transparent;background:transparent;padding:15px 2px 13px;color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.7px}
+.tab.active{color:var(--olive);border-color:var(--olive)}
+main>section{min-height:60vh}
+.hidden{display:none!important}
+.hero{padding:52px 28px 38px;background:var(--paper);border-bottom:1px solid var(--line)}
+.hero-inner{max-width:900px}
+.hero h1{font-size:clamp(36px,6vw,62px);line-height:1.02;letter-spacing:-2.8px;font-weight:570;margin:16px 0 14px;max-width:760px}
+.hero h1 em{font-style:normal;color:var(--olive2)}
+.hero p{max-width:590px;color:var(--muted);font-size:14px;line-height:1.8;margin:0}
+.hero-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.btn{border:1px solid var(--dark);background:var(--dark);color:#fff;padding:12px 17px;border-radius:7px;font-size:11px;font-weight:750;transition:.18s}
+.btn:hover{background:var(--olive);border-color:var(--olive)}
+.btn:active{transform:scale(.985)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.secondary:hover{background:var(--pale);border-color:var(--pale)}
+.btn.full{width:100%;margin-top:10px}
+.stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);max-width:700px}
+.stat strong{display:block;font-size:15px;letter-spacing:-.3px}
+.stat span{font-size:10px;color:var(--muted)}
+.section{padding:34px 28px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:18px}
+.section h2,.page h1{font-size:27px;line-height:1.15;font-weight:620;letter-spacing:-.9px;margin:7px 0}
+.linkbtn{border:0;background:none;text-decoration:underline;text-underline-offset:4px;font-size:11px;color:var(--ink);font-weight:650;padding:6px 0}
+.searchrow{display:flex;gap:10px;margin:22px 0 14px}
+.searchbox{position:relative;flex:1}
+.searchbox input{width:100%;height:46px;border:1px solid var(--line);border-radius:7px;background:white;padding:0 14px 0 42px;outline:none;font-size:12px}
+.searchbox input:focus{border-color:var(--olive2);box-shadow:0 0 0 3px rgba(76,89,69,.08)}
+.searchicon{position:absolute;left:15px;top:12px;color:var(--muted);font-size:16px}
+.filters{display:flex;gap:7px;overflow-x:auto;padding:8px 0 16px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--line);border-radius:999px;background:transparent;padding:8px 13px;font-size:10px;color:var(--muted);font-weight:650}
+.chip.active{background:var(--dark);color:white;border-color:var(--dark)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{border:1px solid var(--line);background:var(--paper);border-radius:10px;overflow:hidden;text-align:left;color:inherit;padding:0;width:100%;transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card:active{transform:scale(.99)}
+.cardart{height:145px;position:relative;overflow:hidden;background:#e5e8df;display:flex;align-items:center;justify-content:center}
+.cardart:before,.cardart:after{content:"";position:absolute;border:1px solid rgba(75,88,67,.35);transform:rotate(-28deg)}
+.cardart:before{width:180px;height:100px;left:16%;top:23%}
+.cardart:after{width:120px;height:155px;right:9%;top:-28%}
+.cardart svg{width:100%;height:100%;position:absolute;inset:0}
+.cardart .artlabel{position:absolute;left:15px;bottom:13px;font-size:9px;letter-spacing:1.5px;color:#4b5844;font-weight:800}
+.cardbody{padding:15px;display:flex;flex-direction:column;flex:1}
+.cardtitle{font-size:15px;font-weight:780;letter-spacing:-.3px}
+.carddesc{font-size:11px;color:var(--muted);line-height:1.6;margin-top:7px;min-height:52px}
+.tag{font-size:9px;letter-spacing:1px;color:var(--olive);font-weight:800;margin-bottom:7px}
+.cardmeta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:13px;padding-top:11px;font-size:10px;color:var(--muted)}
+.cardmeta strong{color:var(--ink);font-size:11px}
+.promo{margin:0 28px 28px;padding:23px 25px;background:var(--pale);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.promo h3{font-size:16px;margin:0 0 5px;letter-spacing:-.4px}
+.promo p{font-size:11px;color:var(--muted);margin:0;max-width:560px}
+.page{padding:34px 28px}
+.page h1{font-size:34px;margin:10px 0}
+.muted{color:var(--muted);font-size:12px;line-height:1.75}
+.detail{margin-top:20px}
+.detailtop{background:#252a24;color:#fff;padding:32px;border-radius:10px;position:relative;overflow:hidden}
+.detailtop:after{content:"28D / COURSE";position:absolute;right:28px;bottom:20px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.35)}
+.detailtop .eyebrow{color:#c5cfbd}
+.detailtop h2{font-size:clamp(28px,5vw,43px);line-height:1.08;letter-spacing:-1.5px;margin:12px 0;max-width:760px}
+.detailtop p{color:#d0d4cc;max-width:720px;font-size:13px;line-height:1.8}
+.detailtags{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.detailtags span{font-size:9px;border:1px solid rgba(255,255,255,.24);padding:6px 9px;border-radius:4px;color:#e7e9e4}
+.detailgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;margin-top:22px}
+.detailmain{min-width:0}
+.contentbox,.sidebox{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:21px;margin-bottom:15px}
+.contentbox h3{font-size:17px;margin:0 0 14px;letter-spacing:-.4px}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+.outcome{display:flex;gap:9px;font-size:11px;color:#51564e;line-height:1.6}
+.check{color:var(--olive);font-weight:900}
+.curriculum{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.curriculum details{border-bottom:1px solid var(--line);background:#fff}
+.curriculum details:last-child{border-bottom:0}
+.curriculum summary{list-style:none;cursor:pointer;padding:14px 15px;font-size:11px;font-weight:750;display:flex;justify-content:space-between;gap:12px}
+.curriculum summary::-webkit-details-marker{display:none}
+.curriculum summary:after{content:"+";font-size:16px;color:var(--olive)}
+.curriculum details[open] summary:after{content:"−"}
+.curriculum ul{margin:0;padding:0 18px 15px 34px;color:var(--muted);font-size:11px;line-height:2}
+.requirements{margin:0;padding-left:18px;color:var(--muted);font-size:11px;line-height:2}
+.sidebox{position:sticky;top:130px;padding:0;overflow:hidden;box-shadow:var(--shadow)}
+.previewart{height:150px;background:linear-gradient(135deg,#dfe4d8,#aeb8a5);display:grid;place-items:center;position:relative}
+.previewart span{font-size:34px;letter-spacing:-2px;font-weight:800;color:rgba(43,55,39,.68)}
+.sidecontent{padding:19px}
+.price{font-size:29px;font-weight:800;letter-spacing:-1px}
+.price small{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0}
+.sidecontent ul{list-style:none;padding:0;margin:15px 0;font-size:10px;color:var(--muted);line-height:2.3}
+.sidecontent li:before{content:"✓";color:var(--olive);font-weight:900;margin-right:8px}
+.sidecontent .smallnote{font-size:9px;color:var(--muted);line-height:1.6;margin-top:10px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:19px;margin-top:16px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;margin-top:20px}
+.timetable{width:100%;border-collapse:collapse;background:white;font-size:11px}
+.timetable th,.timetable td{border-bottom:1px solid var(--line);padding:13px 12px;text-align:left;vertical-align:top}
+.timetable th{background:#f0f2ed;font-weight:750}
+.status{display:inline-block;background:#edf0e7;color:#526047;border-radius:4px;padding:5px 8px;font-size:9px}
+.field{display:block;width:100%;padding:13px;border:1px solid #dedfd7;border-radius:7px;background:white;margin-top:7px;color:var(--ink);outline:none}
+.field:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(76,89,69,.09)}
+label{display:block;font-size:11px;font-weight:700;margin:16px 0}
+.notice{font-size:10px;color:var(--muted);line-height:1.7;margin-top:14px}
+.error{padding:13px;background:#f4e9df;border-radius:8px;font-size:11px;line-height:1.6;margin-top:12px}
+.footer{text-align:center;padding:28px 15px;border-top:1px solid var(--line);font-size:9px;color:var(--muted);letter-spacing:1px;line-height:2}
+@media(max-width:760px){
+ .header{height:64px;padding:0 16px}.tabs{top:64px;padding:0 16px;gap:19px;overflow-x:auto}
+ .hero{padding:39px 18px 29px}.hero h1{letter-spacing:-1.8px}
+ .section,.page{padding:27px 17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .cardart{height:112px}.cardbody{padding:12px}.cardtitle{font-size:13px}.carddesc{font-size:10px;min-height:60px}
+ .promo{margin:0 17px 22px;padding:18px;align-items:flex-start;flex-direction:column}
+ .detailtop{padding:24px 19px}.detailgrid{grid-template-columns:1fr;gap:12px}
+ .sidebox{position:static;grid-row:1}.previewart{height:110px}.outcomes{grid-template-columns:1fr}
+ .page h1{font-size:29px}.stats{gap:17px}
+}
+@media(max-width:390px){
+ .brandname{font-size:11px}.mark{width:36px;height:36px}.tab{font-size:9px}
+ .grid{grid-template-columns:1fr}.cardart{height:135px}.carddesc{min-height:0}
+ .hero-actions{flex-direction:column}.hero-actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="header">
+  <div class="brand"><div class="mark">28D</div><div><div class="brandname">TwentyEightDecStudio</div><div class="eyebrow">Architecture · Education</div></div></div>
+  <div class="lang"><button id="enBtn" class="active">EN</button><button id="kmBtn">ខ្មែរ</button></div>
+</header>
+<nav class="tabs">
+  <button class="tab active" data-page="home">HOME</button>
+  <button class="tab" data-page="courses">COURSES</button>
+  <button class="tab" data-page="schedule">SCHEDULE</button>
+  <button class="tab" data-page="join">JOIN US</button>
+</nav>
+<main>
+<section id="home">
+  <div class="hero"><div class="hero-inner">
+    <div class="eyebrow" data-en="PRACTICAL ONLINE CLASSES · 28D" data-km="វគ្គសិក្សាអនឡាញជាក់ស្តែង · 28D">PRACTICAL ONLINE CLASSES · 28D</div>
+    <h1 data-en="Build your skills.<br>Design your <em>future.</em>" data-km="អភិវឌ្ឍជំនាញ។<br>រចនា <em>អនាគតរបស់អ្នក។</em>">Build your skills.<br>Design your <em>future.</em></h1>
+    <p data-en="Learn the essential tools of architecture, drafting and visualization through focused, instructor-led online classes." data-km="រៀនប្រើកម្មវិធីសំខាន់ៗសម្រាប់ស្ថាបត្យកម្ម គំនូរបច្ចេកទេស និងការបង្ហាញរូបភាព តាមរយៈវគ្គសិក្សាអនឡាញជាមួយគ្រូបង្រៀន។">Learn the essential tools of architecture, drafting and visualization through focused, instructor-led online classes.</p>
+    <div class="hero-actions"><button class="btn" data-go="courses" data-en="Explore all courses →" data-km="ស្វែងរកវគ្គសិក្សា →">Explore all courses →</button><button class="btn secondary" data-go="schedule" data-en="View class schedule" data-km="មើលកាលវិភាគ">View class schedule</button></div>
+    <div class="stats"><div class="stat"><strong>6</strong><span data-en="Learning programs" data-km="កម្មវិធីសិក្សា">Learning programs</span></div><div class="stat"><strong>12</strong><span data-en="Live sessions / program" data-km="ម៉ោងរៀនផ្ទាល់ / វគ្គ">Live sessions / program</span></div><div class="stat"><strong>Online</strong><span data-en="Learn from anywhere" data-km="រៀនពីគ្រប់ទីកន្លែង">Learn from anywhere</span></div></div>
+  </div></div>
+  <div class="section">
+    <div class="sectionhead"><div><div class="eyebrow" data-en="START LEARNING" data-km="ចាប់ផ្តើមរៀន">START LEARNING</div><h2 data-en="Explore popular courses" data-km="ស្វែងរកវគ្គសិក្សា">Explore popular courses</h2></div><button class="linkbtn" data-go="courses" data-en="Browse all →" data-km="មើលទាំងអស់ →">Browse all →</button></div>
+    <div id="featured" class="grid"></div>
+  </div>
+  <div class="promo"><div><h3 data-en="Small groups. Practical learning." data-km="ក្រុមតូច។ រៀនដោយអនុវត្ត។">Small groups. Practical learning.</h3><p data-en="Join a guided live program with 12 sessions over 6 weeks. Group classes are $50 per program. Contact us to confirm the next intake and available time." data-km="ចូលរួមវគ្គសិក្សាផ្ទាល់ចំនួន ១២ ម៉ោង ក្នុងរយៈពេល ៦ សប្តាហ៍។ តម្លៃក្រុមគឺ ៥០ ដុល្លារក្នុងមួយវគ្គ។ សូមទាក់ទងដើម្បីបញ្ជាក់ថ្ងៃចូលរៀន។">Join a guided live program with 12 sessions over 6 weeks. Group classes are $50 per program. Contact us to confirm the next intake and available time.</p></div><button class="btn" data-go="join" data-en="Get started →" data-km="ចាប់ផ្តើម →">Get started →</button></div>
+</section>
+
+<section id="courses" class="page hidden">
+  <div class="eyebrow" data-en="COURSE CATALOG" data-km="បញ្ជីវគ្គសិក្សា">COURSE CATALOG</div>
+  <h1 data-en="Find the right course." data-km="ស្វែងរកវគ្គសិក្សាដែលសមស្រប។">Find the right course.</h1>
+  <p class="muted" data-en="Explore practical software training for drafting, 3D modeling, graphic presentation and architectural visualization." data-km="ស្វែងរកវគ្គបណ្តុះបណ្តាលកម្មវិធីសម្រាប់គំនូរបច្ចេកទេស ម៉ូដែល 3D ការរចនាក្រាហ្វិក និងការបង្ហាញស្ថាបត្យកម្ម។">Explore practical software training for drafting, 3D modeling, graphic presentation and architectural visualization.</p>
+  <div class="searchrow"><div class="searchbox"><span class="searchicon">⌕</span><input id="courseSearch" type="search" placeholder="Search courses..." aria-label="Search courses"></div></div>
+  <div class="filters" id="filters"></div>
+  <div id="courseList" class="grid"></div>
+  <div id="detail" class="detail hidden"></div>
+</section>
+
+<section id="schedule" class="page hidden">
+  <div class="eyebrow" data-en="CLASS FORMAT" data-km="ទម្រង់សិក្សា">CLASS FORMAT</div>
+  <h1 data-en="A clear path to progress." data-km="ផ្លូវសិក្សាច្បាស់លាស់។">A clear path to progress.</h1>
+  <p class="muted" data-en="Our group programs are delivered live online. Each program includes 12 sessions across 6 weeks, with two classes per week. Exact course availability is confirmed by the studio." data-km="កម្មវិធីសិក្សាជាក្រុមត្រូវបានបង្រៀនផ្ទាល់តាមអនឡាញ។ វគ្គនីមួយៗមាន ១២ ម៉ោង ក្នុងរយៈពេល ៦ សប្តាហ៍ ដោយរៀន ២ ដងក្នុងមួយសប្តាហ៍។ សូមទាក់ទងស្ទូឌីយោដើម្បីបញ្ជាក់វគ្គដែលមាន។">Our group programs are delivered live online. Each program includes 12 sessions across 6 weeks, with two classes per week. Exact course availability is confirmed by the studio.</p>
+  <div class="tablewrap"><table class="timetable"><thead><tr><th>Day</th><th>Available class windows</th></tr></thead><tbody>
+    <tr><th>Saturday</th><td>08:30–10:00 · 10:30–12:00<br>13:30–15:00 · 15:30–17:00</td></tr>
+    <tr><th>Sunday</th><td>08:30–10:00 · 10:30–12:00<br>13:30–15:00 · 15:30–17:00</td></tr>
+  </tbody></table></div>
+  <div class="panel"><strong data-en="Group learning" data-km="ការសិក្សាជាក្រុម">Group learning</strong><p class="muted" data-en="12 live sessions · 6 weeks · $50 per program. Beginner-friendly classes with a certificate on completion." data-km="១២ ម៉ោងរៀនផ្ទាល់ · ៦ សប្តាហ៍ · ៥០ ដុល្លារក្នុងមួយវគ្គ។ សម្រាប់អ្នកចាប់ផ្តើម និងមានវិញ្ញាបនបត្របន្ទាប់ពីបញ្ចប់។">12 live sessions · 6 weeks · $50 per program. Beginner-friendly classes with a certificate on completion.</p><strong data-en="Private learning" data-km="ការសិក្សាឯកជន">Private learning</strong><p class="muted" data-en="One-to-one lessons with a flexible schedule. Contact the studio for a quotation." data-km="រៀនម្នាក់ឯងជាមួយកាលវិភាគអាចបត់បែនបាន។ សូមទាក់ទងស្ទូឌីយោដើម្បីសួរតម្លៃ។">One-to-one lessons with a flexible schedule. Contact the studio for a quotation.</p><button class="btn" data-go="join" data-en="Ask about enrollment →" data-km="សួរអំពីការចុះឈ្មោះ →">Ask about enrollment →</button></div>
+</section>
+
+<section id="join" class="page hidden">
+  <div class="eyebrow" data-en="ENROLLMENT INQUIRY" data-km="សំណើចុះឈ្មោះ">ENROLLMENT INQUIRY</div>
+  <h1 data-en="Start your learning journey." data-km="ចាប់ផ្តើមដំណើរសិក្សារបស់អ្នក។">Start your learning journey.</h1>
+  <p class="muted" data-en="Send your details and our team will follow up to confirm the course, schedule and enrollment." data-km="សូមបំពេញព័ត៌មាន ហើយក្រុមការងារយើងនឹងទាក់ទងដើម្បីបញ្ជាក់វគ្គសិក្សា កាលវិភាគ និងការចុះឈ្មោះ។">Send your details and our team will follow up to confirm the course, schedule and enrollment.</p>
+  <form id="joinForm" class="panel">
+    <label><span data-en="Full name" data-km="ឈ្មោះពេញ">Full name</span><input id="studentName" class="field" required placeholder="Your name / ឈ្មោះ"></label>
+    <label><span data-en="Course of interest" data-km="វគ្គសិក្សាដែលចាប់អារម្មណ៍">Course of interest</span><select id="courseChoice" class="field"></select></label>
+    <label><span data-en="Learning format" data-km="ទម្រង់សិក្សា">Learning format</span><select id="classFormat" class="field"><option>Group class</option><option>Private class</option></select></label>
+    <label><span data-en="Experience level" data-km="កម្រិតបទពិសោធន៍">Experience level</span><select id="level" class="field"><option>Beginner / អ្នកចាប់ផ្តើម</option><option>Some experience / មានបទពិសោធន៍ខ្លះ</option><option>Advanced / កម្រិតខ្ពស់</option></select></label>
+    <label><span data-en="Message (optional)" data-km="សារបន្ថែម (មិនចាំបាច់)">Message (optional)</span><textarea id="studentMessage" class="field" rows="3" placeholder="Your questions / សំណួររបស់អ្នក"></textarea></label>
+    <button class="btn full" type="submit" data-en="Submit enrollment inquiry →" data-km="បញ្ជូនសំណើចុះឈ្មោះ →">Submit enrollment inquiry →</button>
+  </form>
+  <p class="notice" data-en="Submitting sends an application to the studio for review. It does not reserve a seat or process a payment." data-km="ការបញ្ជូននេះផ្ញើសំណើទៅស្ទូឌីយោដើម្បីពិនិត្យប៉ុណ្ណោះ។ វាមិនទាន់កក់កន្លែង ឬដំណើរការទូទាត់ទេ។">Submitting sends an application to the studio for review. It does not reserve a seat or process a payment.</p>
+  <div id="formResult" class="error hidden"></div>
+</section>
+</main>
+<footer class="footer">TWENTYEIGHTDECSTUDIO · LEARN · DESIGN · BUILD<br><span style="letter-spacing:0">Practical online learning for the next generation of designers.</span></footer>
+</div>
+
+<script>
+/* Keep your valid public Telegram username here. Do not put the bot token in this file. */
+const TELEGRAM_USERNAME = "REPLACE_WITH_VALID_USERNAME";
+const courses = [
+ {name:"AutoCAD",category:"Drafting",tag:"TECHNICAL DRAWING",desc:"Learn precise 2D drafting, drawing organization and architectural documentation.",topics:["Drawing setup and interface","Essential drawing and editing commands","Layers, dimensions and annotations","Floor plans and plotting"]},
+ {name:"SketchUp",category:"Modeling",tag:"3D MODELING",desc:"Build clear 3D architectural models from basic geometry to presentation-ready scenes.",topics:["Navigation and modeling workflow","Groups and components","Materials and scenes","Model organization"]},
+ {name:"Photoshop",category:"Graphics",tag:"VISUAL COMMUNICATION",desc:"Improve architectural presentations through image editing, composition and graphic hierarchy.",topics:["Selection and masking","Layers and adjustment tools","Architectural post-production","Presentation board layout"]},
+ {name:"Lumion",category:"Rendering",tag:"REAL-TIME VISUALIZATION",desc:"Develop architectural scenes with materials, lighting, landscaping and camera composition.",topics:["Import and scene setup","Materials and environment","Lighting and composition","Rendering workflow"]},
+ {name:"V-Ray",category:"Rendering",tag:"RENDERING & LIGHTING",desc:"Build a rendering workflow focused on realistic materials, light and image quality.",topics:["Materials and textures","Lighting fundamentals","Camera and exposure","Render settings and output"]},
+ {name:"D5 Render",category:"Rendering",tag:"REAL-TIME RENDERING",desc:"Explore real-time visualization for architectural models, atmosphere and polished imagery.",topics:["Model import","Materials and lighting","Environment and entourage","Image output"]}
+];
+const categories=[["All","ទាំងអស់"],["Drafting","គំនូរបច្ចេកទេស"],["Modeling","ម៉ូដែល 3D"],["Rendering","រូបភាព Render"],["Graphics","ក្រាហ្វិក"]];
+let lang="en",filter="All",searchTerm="";
+const $=id=>document.getElementById(id);
+function showPage(id){
+ document.querySelectorAll("main>section").forEach(s=>s.classList.toggle("hidden",s.id!==id));
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
+function courseArt(i){return `<div class="cardart"><svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#69765f" stroke-width="1"><path d="M30 124L160 25 290 124M30 124H290M75 124V88L160 25 245 88V124M75 88H245M160 25V124M15 137H305"/><path d="M105 124V75L160 44 215 75V124" opacity=".5"/></g></svg><span class="artlabel">28D / 0${i+1}</span></div>`}
+function card(c,i){return `<button class="card" data-course="${c.name}">${courseArt(i)}<div class="cardbody"><div class="tag">${c.tag}</div><div class="cardtitle">${c.name}</div><div class="carddesc">${c.desc}</div><div class="cardmeta"><strong>12 live sessions</strong><span>Explore course →</span></div></div></button>`}
+function bindCourseCards(root){root.querySelectorAll("[data-course]").forEach(b=>b.addEventListener("click",()=>showDetail(b.dataset.course)))}
+function renderCourses(){
+ const list=courses.filter(c=>(filter==="All"||c.category===filter)&&(`${c.name} ${c.category} ${c.tag} ${c.desc}`).toLowerCase().includes(searchTerm));
+ $("courseList").innerHTML=list.length?list.map(card).join(""):`<div class="panel muted">No courses found. Try another search.</div>`;
+ bindCourseCards($("courseList"));
+}
+function renderFilters(){
+ $("filters").innerHTML=categories.map(([en,km])=>`<button class="chip ${filter===en?"active":""}" data-filter="${en}">${lang==="km"?km:en}</button>`).join("");
+ $("filters").querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;renderFilters();renderCourses();$("detail").classList.add("hidden");$("courseList").classList.remove("hidden")}));
+}
+function showDetail(name){
+ const c=courses.find(x=>x.name===name);if(!c)return;
+ $("courseList").classList.add("hidden");$("filters").classList.add("hidden");$("searchRow")?.classList.add("hidden");
+ const outcomes=c.topics.map(t=>`<div class="outcome"><span class="check">✓</span><span>${t}</span></div>`).join("");
+ const curriculum=c.topics.map((t,i)=>`<details ${i===0?"open":""}><summary>Part ${i+1} · ${t}</summary><ul><li>Instructor-led explanation and demonstration</li><li>Guided practical exercise</li><li>Questions, feedback and review</li></ul></details>`).join("");
+ $("detail").classList.remove("hidden");
+ $("detail").innerHTML=`
+ <button class="linkbtn" id="backCourses">← Back to all courses</button>
+ <div class="detailtop"><div class="eyebrow">${c.tag} · TWENTYEIGHTDECSTUDIO</div><h2>${c.name}: Practical Skills for Architecture & Design</h2><p>${c.desc} Build a structured workflow through guided demonstrations and hands-on practice.</p><div class="detailtags"><span>Live online classes</span><span>Beginner-friendly</span><span>Certificate on completion</span></div></div>
+ <div class="detailgrid"><div class="detailmain">
+  <div class="contentbox"><h3>What you'll learn</h3><div class="outcomes">${outcomes}</div></div>
+  <div class="contentbox"><h3>Course content</h3><p class="muted">A practical learning outline. Your instructor will guide you through the topics with live demonstrations and exercises.</p><div class="curriculum">${curriculum}</div></div>
+  <div class="contentbox"><h3>Requirements</h3><ul class="requirements"><li>No advanced experience required; beginners are welcome.</li><li>A computer with the relevant software installed.</li><li>Stable internet connection for live online sessions.</li><li>Willingness to practice between classes.</li></ul></div>
+  <div class="contentbox"><h3>Who this course is for</h3><p class="muted">Students, aspiring architects, designers and creative professionals who want to build practical software skills for design and presentation work.</p></div>
+  <div class="contentbox"><h3>About the class</h3><p class="muted">Classes are delivered live online in small groups. The group program includes 12 sessions over 6 weeks, with two sessions per week. Private one-to-one classes can be arranged separately.</p></div>
+ </div>
+ <aside class="sidebox"><div class="previewart"><span>28D</span></div><div class="sidecontent"><div class="price">$50 <small>/ group program</small></div><ul><li>12 live online sessions</li><li>6-week learning program</li><li>Beginner-friendly instruction</li><li>Certificate on completion</li><li>Weekend class options</li></ul><button class="btn full" id="detailJoin">Enroll / Ask about this course →</button><p class="smallnote">Private classes are available with flexible scheduling. Contact the studio for a quotation. Course dates and open seats are confirmed before enrollment.</p></div></aside></div>`;
+ $("backCourses").onclick=()=>{$("detail").classList.add("hidden");$("courseList").classList.remove("hidden");$("filters").classList.remove("hidden");$("courseSearch").parentElement.parentElement.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})};
+ $("detailJoin").onclick=()=>{showPage("join");$("courseChoice").value=name;};
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function setLang(next){
+ lang=next;$("enBtn").classList.toggle("active",lang==="en");$("kmBtn").classList.toggle("active",lang==="km");document.documentElement.lang=lang==="km"?"km":"en";
+ document.querySelectorAll("[data-en][data-km]").forEach(el=>el.innerHTML=el.dataset[lang]);
+ renderFilters();renderCourses();
+}
+$("enBtn").onclick=()=>setLang("en");$("kmBtn").onclick=()=>setLang("km");
+$("courseSearch").addEventListener("input",e=>{searchTerm=e.target.value.toLowerCase().trim();renderCourses()});
+$("joinForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const result=$("formResult"),button=$("joinForm").querySelector('button[type="submit"]');
+ const tg=window.Telegram?.WebApp,initData=tg?.initData||"";
+ result.classList.remove("hidden");
+ if(!initData){result.textContent="Please open this form from Telegram to register.";return;}
+ button.disabled=true;
+ try{
+  const response=await fetch("https://twentyeightdecstudio-api.phansamrach28.workers.dev/api/register",{
+   method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({initData,fullName:$("studentName").value.trim(),course:$("courseChoice").value,experienceLevel:$("level").value,studentMessage:`Format: ${$("classFormat").value}. ${$("studentMessage").value.trim()}`})
+  });
+  const data=await response.json();
+  if(!response.ok||!data.success)throw new Error(data.message||"Registration failed. Please try again.");
+  result.textContent=lang==="km"?`បានដាក់ពាក្យជោគជ័យ! លេខពាក្យស្នើសុំ៖ #${data.applicationId}។ សូមរង់ចាំការបញ្ជាក់។`:`Application #${data.applicationId} submitted successfully! Please wait for confirmation.`;
+  $("joinForm").reset();
+ }catch(error){result.textContent=error.message;}
+ finally{button.disabled=false;}
+});
+$("featured").innerHTML=courses.slice(0,3).map(card).join("");bindCourseCards($("featured"));
+$("courseChoice").innerHTML=courses.map(c=>`<option>${c.name}</option>`).join("");
+renderFilters();renderCourses();
+if(window.Telegram?.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}
+</script>
+</body>
+</html>
