@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f7f4">
+<title>28.DEC STUDIO | Start from Zero</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+  const telegramApp = window.Telegram?.WebApp;
+  if (telegramApp) {
+    telegramApp.ready();
+    telegramApp.expand();
+    window.telegramInitData = telegramApp.initData;
+  }
+</script>
+<style>
+:root{
+  --bg:#f7f7f4;--paper:#fff;--ink:#20231f;--muted:#72766e;--line:#e7e8e2;
+  --olive:#4c5945;--olive2:#69765f;--pale:#edf0e9;--dark:#20231f;
+  --gold:#d5b56b;--radius:13px;--shadow:0 12px 34px rgba(28,34,25,.07)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+.wrap{max-width:1180px;min-height:100vh;margin:auto;background:var(--bg);padding-bottom:30px}
+.header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(247,247,244,.96);position:sticky;top:0;z-index:20;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:40px;height:40px;background:var(--dark);color:white;display:grid;place-items:center;font-size:11px;font-weight:800;letter-spacing:.6px}
+.brandname{font-size:13px;font-weight:800;letter-spacing:-.25px}
+.eyebrow{font-size:9px;letter-spacing:1.8px;font-weight:750;color:var(--muted);text-transform:uppercase}
+.lang{display:flex;gap:5px}
+.lang button{border:1px solid var(--line);background:transparent;border-radius:6px;padding:7px 10px;font-size:10px;color:var(--muted)}
+.lang button.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.tabs{display:flex;gap:24px;padding:0 28px;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:15}
+.tab{border:0;border-bottom:2px solid transparent;background:transparent;padding:15px 2px 13px;color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.7px}
+.tab.active{color:var(--olive);border-color:var(--olive)}
+main>section{min-height:60vh}
+.hidden{display:none!important}
+.hero{padding:52px 28px 38px;background:var(--paper);border-bottom:1px solid var(--line)}
+.hero-inner{max-width:900px}
+.hero h1{font-size:clamp(36px,6vw,62px);line-height:1.02;letter-spacing:-2.8px;font-weight:570;margin:16px 0 14px;max-width:760px}
+.hero h1 em{font-style:normal;color:var(--olive2)}
+.hero p{max-width:590px;color:var(--muted);font-size:14px;line-height:1.8;margin:0}
+.hero-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.btn{border:1px solid var(--dark);background:var(--dark);color:#fff;padding:12px 17px;border-radius:7px;font-size:11px;font-weight:750;transition:.18s}
+.btn:hover{background:var(--olive);border-color:var(--olive)}
+.btn:active{transform:scale(.985)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.secondary:hover{background:var(--pale);border-color:var(--pale)}
+.btn.full{width:100%;margin-top:10px}
+.stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);max-width:700px}
+.stat strong{display:block;font-size:15px;letter-spacing:-.3px}
+.stat span{font-size:10px;color:var(--muted)}
+.section{padding:34px 28px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:18px}
+.section h2,.page h1{font-size:27px;line-height:1.15;font-weight:620;letter-spacing:-.9px;margin:7px 0}
+.linkbtn{border:0;background:none;text-decoration:underline;text-underline-offset:4px;font-size:11px;color:var(--ink);font-weight:650;padding:6px 0}
+.searchrow{display:flex;gap:10px;margin:22px 0 14px}
+.searchbox{position:relative;flex:1}
+.searchbox input{width:100%;height:46px;border:1px solid var(--line);border-radius:7px;background:white;padding:0 14px 0 42px;outline:none;font-size:12px}
+.searchbox input:focus{border-color:var(--olive2);box-shadow:0 0 0 3px rgba(76,89,69,.08)}
+.searchicon{position:absolute;left:15px;top:12px;color:var(--muted);font-size:16px}
+.filters{display:flex;gap:7px;overflow-x:auto;padding:8px 0 16px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--line);border-radius:999px;background:transparent;padding:8px 13px;font-size:10px;color:var(--muted);font-weight:650}
+.chip.active{background:var(--dark);color:white;border-color:var(--dark)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{border:1px solid var(--line);background:var(--paper);border-radius:10px;overflow:hidden;text-align:left;color:inherit;padding:0;width:100%;transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card:active{transform:scale(.99)}
+.cardart{height:145px;position:relative;overflow:hidden;background:#f0f1ed;display:flex;align-items:center;justify-content:center;padding:25px}
+.cardart:before{content:"";position:absolute;inset:12px;border:1px solid rgba(75,88,67,.12);border-radius:8px}
+.cardart .program-logo{position:relative;z-index:1;display:block;max-width:82%;max-height:78px;width:auto;height:auto;object-fit:contain}
+.cardart .program-wordmark{position:relative;z-index:1;font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:2px;color:#2b5486}
+.cardart .artlabel{position:absolute;left:15px;bottom:10px;font-size:8px;letter-spacing:1.4px;color:#777d73;font-weight:800}
+.cardbody{padding:15px;display:flex;flex-direction:column;flex:1}
+.cardtitle{font-size:15px;font-weight:780;letter-spacing:-.3px}
+.carddesc{font-size:11px;color:var(--muted);line-height:1.6;margin-top:7px;min-height:52px}
+.tag{font-size:9px;letter-spacing:1px;color:var(--olive);font-weight:800;margin-bottom:7px}
+.cardmeta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:13px;padding-top:11px;font-size:10px;color:var(--muted)}
+.cardmeta strong{color:var(--ink);font-size:11px}
+.promo{margin:0 28px 28px;padding:23px 25px;background:var(--pale);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.promo h3{font-size:16px;margin:0 0 5px;letter-spacing:-.4px}
+.promo p{font-size:11px;color:var(--muted);margin:0;max-width:560px}
+.page{padding:34px 28px}
+.page h1{font-size:34px;margin:10px 0}
+.muted{color:var(--muted);font-size:12px;line-height:1.75}
+.detail{margin-top:20px}
+.detailtop{background:#252a24;color:#fff;padding:32px;border-radius:10px;position:relative;overflow:hidden}
+.detailtop:after{content:"28D / COURSE";position:absolute;right:28px;bottom:20px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.35)}
+.detailtop .eyebrow{color:#c5cfbd}
+.detailtop h2{font-size:clamp(28px,5vw,43px);line-height:1.08;letter-spacing:-1.5px;margin:12px 0;max-width:760px}
+.detailtop p{color:#d0d4cc;max-width:720px;font-size:13px;line-height:1.8}
+.detailtags{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.detailtags span{font-size:9px;border:1px solid rgba(255,255,255,.24);padding:6px 9px;border-radius:4px;color:#e7e9e4}
+.detailgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;margin-top:22px}
+.detailmain{min-width:0}
+.contentbox,.sidebox{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:21px;margin-bottom:15px}
+.contentbox h3{font-size:17px;margin:0 0 14px;letter-spacing:-.4px}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+.outcome{display:flex;gap:9px;font-size:11px;color:#51564e;line-height:1.6}
+.check{color:var(--olive);font-weight:900}
+.curriculum{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.curriculum details{border-bottom:1px solid var(--line);background:#fff}
+.curriculum details:last-child{border-bottom:0}
+.curriculum summary{list-style:none;cursor:pointer;padding:14px 15px;font-size:11px;font-weight:750;display:flex;justify-content:space-between;gap:12px}
+.curriculum summary::-webkit-details-marker{display:none}
+.curriculum summary:after{content:"+";font-size:16px;color:var(--olive)}
+.curriculum details[open] summary:after{content:"−"}
+.curriculum ul{margin:0;padding:0 18px 15px 34px;color:var(--muted);font-size:11px;line-height:2}
+.requirements{margin:0;padding-left:18px;color:var(--muted);font-size:11px;line-height:2}
+.sidebox{position:sticky;top:130px;padding:0;overflow:hidden;box-shadow:var(--shadow)}
+.previewart{height:150px;background:#f0f1ed;display:grid;place-items:center;position:relative;padding:24px}
+.previewart .program-logo{max-width:78%;max-height:82px;width:auto;height:auto;object-fit:contain}
+.previewart .program-wordmark{font-size:38px;font-weight:800;letter-spacing:2px;color:#2b5486}
+.sidecontent{padding:19px}
+.price{font-size:29px;font-weight:800;letter-spacing:-1px}
+.price small{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0}
+.sidecontent ul{list-style:none;padding:0;margin:15px 0;font-size:10px;color:var(--muted);line-height:2.3}
+.sidecontent li:before{content:"✓";color:var(--olive);font-weight:900;margin-right:8px}
+.sidecontent .smallnote{font-size:9px;color:var(--muted);line-height:1.6;margin-top:10px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:19px;margin-top:16px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;margin-top:20px}
+.timetable{width:100%;border-collapse:collapse;background:white;font-size:11px}
+.timetable th,.timetable td{border-bottom:1px solid var(--line);padding:13px 12px;text-align:left;vertical-align:top}
+.timetable th{background:#f0f2ed;font-weight:750}
+.status{display:inline-block;background:#edf0e7;color:#526047;border-radius:4px;padding:5px 8px;font-size:9px}
+.field{display:block;width:100%;padding:13px;border:1px solid #dedfd7;border-radius:7px;background:white;margin-top:7px;color:var(--ink);outline:none}
+.field:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(76,89,69,.09)}
+label{display:block;font-size:11px;font-weight:700;margin:16px 0}
+.notice{font-size:10px;color:var(--muted);line-height:1.7;margin-top:14px}
+.error{padding:13px;background:#f4e9df;border-radius:8px;font-size:11px;line-height:1.6;margin-top:12px}
+.footer{text-align:center;padding:28px 15px;border-top:1px solid var(--line);font-size:9px;color:var(--muted);letter-spacing:1px;line-height:2}
+@media(max-width:760px){
+ .header{height:64px;padding:0 16px}.tabs{top:64px;padding:0 16px;gap:19px;overflow-x:auto}
+ .hero{padding:39px 18px 29px}.hero h1{letter-spacing:-1.8px}
+ .section,.page{padding:27px 17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .cardart{height:112px}.cardbody{padding:12px}.cardtitle{font-size:13px}.carddesc{font-size:10px;min-height:60px}
+ .promo{margin:0 17px 22px;padding:18px;align-items:flex-start;flex-direction:column}
+ .detailtop{padding:24px 19px}.detailgrid{grid-template-columns:1fr;gap:12px}
+ .sidebox{position:static;grid-row:1}.previewart{height:110px}.outcomes{grid-template-columns:1fr}
+ .page h1{font-size:29px}.stats{gap:17px}
+}
+@media(max-width:390px){
+ .brandname{font-size:11px}.mark{width:36px;height:36px}.tab{font-size:9px}
+ .grid{grid-template-columns:1fr}.cardart{height:135px}.carddesc{min-height:0}
+ .hero-actions{flex-direction:column}.hero-actions .btn{width:100%}
+}
+.chaptercount{margin-left:auto;font-size:9px;color:var(--muted);font-weight:600;white-space:nowrap}.chapterbody{padding:0 12px 12px;background:#fbfbf9}.curriculum .sessionitem{border:1px solid var(--line);border-radius:6px;margin:7px 0;background:#fff}.curriculum .sessionitem summary{padding:11px 12px;align-items:center}.curriculum .sessionitem summary:after{content:"+";font-size:14px}.curriculum .sessionitem[open] summary:after{content:"−"}.curriculum .sessionitem summary span{display:flex;flex-direction:column;gap:2px}.curriculum .sessionitem summary small{font-size:8px;letter-spacing:1px;color:var(--olive);font-weight:800}.curriculum .sessionitem summary b{font-size:11px}.sessioncontent{padding:0 14px 12px 25px;color:var(--muted);font-size:10px;line-height:1.8}.sessioncontent ul{margin:0;padding-left:16px}.sessioncontent .focusline{margin:0 0 6px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="header">
+  <div class="brand"><div class="mark">28D</div><div><div class="brandname">28.DEC STUDIO</div><div class="eyebrow">START FROM ZERO</div></div></div>
+  <div class="lang"><button id="enBtn" class="active">EN</button><button id="kmBtn">ខ្មែរ</button></div>
+</header>
+<nav class="tabs">
+  <button class="tab active" data-page="home">HOME</button>
+  <button class="tab" data-page="courses">COURSES</button>
+  <button class="tab" data-page="schedule">SCHEDULE</button>
+  <button class="tab" data-page="join">JOIN US</button>
+</nav>
+<main>
+<section id="home">
+  <div class="hero"><div class="hero-inner">
+    <div class="eyebrow" data-en="START FROM ZERO · BUILD YOUR DESIGN SKILLS" data-km="ចាប់ផ្តើមពីសូន្យ · អភិវឌ្ឍជំនាញរចនារបស់អ្នក">START FROM ZERO · BUILD YOUR DESIGN SKILLS</div>
+    <h1 data-en="Start from <em>Zero.</em><br>Build your <em>Future.</em>" data-km="ចាប់ផ្តើមពី <em>សូន្យ។</em><br>កសាង <em>អនាគត។</em>">Start from <em>Zero.</em><br>Build your <em>Future.</em></h1>
+    <p data-en="No experience needed. Learn architecture and design software step by step, practice with real projects, and build skills from the ground up." data-km="រៀនប្រើកម្មវិធីសំខាន់ៗសម្រាប់ស្ថាបត្យកម្ម គំនូរបច្ចេកទេស និងការបង្ហាញរូបភាព តាមរយៈវគ្គសិក្សាអនឡាញជាមួយគ្រូបង្រៀន។">No experience needed. Learn architecture and design software step by step, practice with real projects, and build skills from the ground up.</p>
+    <div class="hero-actions"><button class="btn" data-go="courses" data-en="Explore all courses →" data-km="ស្វែងរកវគ្គសិក្សា →">Explore all courses →</button><button class="btn secondary" data-go="schedule" data-en="View class schedule" data-km="មើលកាលវិភាគ">View class schedule</button></div>
+    <div class="stats"><div class="stat"><strong>5 + 1</strong><span data-en="Active courses + coming soon" data-km="វគ្គសិក្សា + វគ្គនឹងមកដល់">Active courses + coming soon</span></div><div class="stat"><strong>12</strong><span data-en="Live sessions / program" data-km="ម៉ោងរៀនផ្ទាល់ / វគ្គ">Live sessions / program</span></div><div class="stat"><strong>Online</strong><span data-en="Learn from anywhere" data-km="រៀនពីគ្រប់ទីកន្លែង">Learn from anywhere</span></div></div>
+  </div></div>
+  <div class="section">
+    <div class="sectionhead"><div><div class="eyebrow" data-en="START LEARNING" data-km="ចាប់ផ្តើមរៀន">START LEARNING</div><h2 data-en="Explore popular courses" data-km="ស្វែងរកវគ្គសិក្សា">Explore popular courses</h2></div><button class="linkbtn" data-go="courses" data-en="Browse all →" data-km="មើលទាំងអស់ →">Browse all →</button></div>
+    <div id="featured" class="grid"></div>
+  </div>
+  <div class="promo"><div><h3 data-en="Small groups. Practical learning." data-km="ក្រុមតូច។ រៀនដោយអនុវត្ត។">Small groups. Practical learning.</h3><p data-en="Join a guided live program with 12 sessions over 6 weeks. Group classes are $50 per program. Contact us to confirm the next intake and available time." data-km="ចូលរួមវគ្គសិក្សាផ្ទាល់ចំនួន ១២ ម៉ោង ក្នុងរយៈពេល ៦ សប្តាហ៍។ តម្លៃក្រុមគឺ ៥០ ដុល្លារក្នុងមួយវគ្គ។ សូមទាក់ទងដើម្បីបញ្ជាក់ថ្ងៃចូលរៀន។">Join a guided live program with 12 sessions over 6 weeks. Group classes are $50 per program. Contact us to confirm the next intake and available time.</p></div><button class="btn" data-go="join" data-en="Get started →" data-km="ចាប់ផ្តើម →">Get started →</button></div>
+</section>
+
+<section id="courses" class="page hidden">
+  <div class="eyebrow" data-en="COURSE CATALOG" data-km="បញ្ជីវគ្គសិក្សា">COURSE CATALOG</div>
+  <h1 data-en="Find the right course." data-km="ស្វែងរកវគ្គសិក្សាដែលសមស្រប។">Find the right course.</h1>
+  <p class="muted" data-en="Explore practical software training for drafting, 3D modeling, graphic presentation and architectural visualization." data-km="ស្វែងរកវគ្គបណ្តុះបណ្តាលកម្មវិធីសម្រាប់គំនូរបច្ចេកទេស ម៉ូដែល 3D ការរចនាក្រាហ្វិក និងការបង្ហាញស្ថាបត្យកម្ម។">Explore practical software training for drafting, 3D modeling, graphic presentation and architectural visualization.</p>
+  <div class="searchrow"><div class="searchbox"><span class="searchicon">⌕</span><input id="courseSearch" type="search" placeholder="Search courses..." aria-label="Search courses"></div></div>
+  <div class="filters" id="filters"></div>
+  <div id="courseList" class="grid"></div>
+  <div id="detail" class="detail hidden"></div>
+</section>
+
+<section id="schedule" class="page hidden">
+  <div class="eyebrow" data-en="CLASS FORMAT" data-km="ទម្រង់សិក្សា">CLASS FORMAT</div>
+  <h1 data-en="A clear path to progress." data-km="ផ្លូវសិក្សាច្បាស់លាស់។">A clear path to progress.</h1>
+  <p class="muted" data-en="Our group programs are delivered live online. Each program includes 12 sessions across 6 weeks, with two classes per week. Exact course availability is confirmed by the studio." data-km="កម្មវិធីសិក្សាជាក្រុមត្រូវបានបង្រៀនផ្ទាល់តាមអនឡាញ។ វគ្គនីមួយៗមាន ១២ ម៉ោង ក្នុងរយៈពេល ៦ សប្តាហ៍ ដោយរៀន ២ ដងក្នុងមួយសប្តាហ៍។ សូមទាក់ទងស្ទូឌីយោដើម្បីបញ្ជាក់វគ្គដែលមាន។">Our group programs are delivered live online. Each program includes 12 sessions across 6 weeks, with two classes per week. Exact course availability is confirmed by the studio.</p>
+  <div class="tablewrap"><table class="timetable"><thead><tr><th>Day</th><th>Available class windows</th></tr></thead><tbody>
+    <tr><th>Saturday</th><td>08:30–10:00 · 10:30–12:00<br>13:30–15:00 · 15:30–17:00</td></tr>
+    <tr><th>Sunday</th><td>08:30–10:00 · 10:30–12:00<br>13:30–15:00 · 15:30–17:00</td></tr>
+  </tbody></table></div>
+  <div class="panel"><strong data-en="Group learning" data-km="ការសិក្សាជាក្រុម">Group learning</strong><p class="muted" data-en="12 live sessions · 6 weeks · $50 per program. Beginner-friendly classes with a certificate on completion." data-km="១២ ម៉ោងរៀនផ្ទាល់ · ៦ សប្តាហ៍ · ៥០ ដុល្លារក្នុងមួយវគ្គ។ សម្រាប់អ្នកចាប់ផ្តើម និងមានវិញ្ញាបនបត្របន្ទាប់ពីបញ្ចប់។">12 live sessions · 6 weeks · $50 per program. Beginner-friendly classes with a certificate on completion.</p><strong data-en="Private learning" data-km="ការសិក្សាឯកជន">Private learning</strong><p class="muted" data-en="One-to-one lessons with a flexible schedule. Contact the studio for a quotation." data-km="រៀនម្នាក់ឯងជាមួយកាលវិភាគអាចបត់បែនបាន។ សូមទាក់ទងស្ទូឌីយោដើម្បីសួរតម្លៃ។">One-to-one lessons with a flexible schedule. Contact the studio for a quotation.</p><button class="btn" data-go="join" data-en="Ask about enrollment →" data-km="សួរអំពីការចុះឈ្មោះ →">Ask about enrollment →</button></div>
+</section>
+
+<section id="join" class="page hidden">
+  <div class="eyebrow" data-en="ENROLLMENT INQUIRY" data-km="សំណើចុះឈ្មោះ">ENROLLMENT INQUIRY</div>
+  <h1 data-en="Start your learning journey." data-km="ចាប់ផ្តើមដំណើរសិក្សារបស់អ្នក។">Start your learning journey.</h1>
+  <p class="muted" data-en="Send your details and our team will follow up to confirm the course, schedule and enrollment." data-km="សូមបំពេញព័ត៌មាន ហើយក្រុមការងារយើងនឹងទាក់ទងដើម្បីបញ្ជាក់វគ្គសិក្សា កាលវិភាគ និងការចុះឈ្មោះ។">Send your details and our team will follow up to confirm the course, schedule and enrollment.</p>
+  <form id="joinForm" class="panel">
+    <label><span data-en="Full name" data-km="ឈ្មោះពេញ">Full name</span><input id="studentName" class="field" required placeholder="Your name / ឈ្មោះ"></label>
+    <label><span data-en="Course of interest" data-km="វគ្គសិក្សាដែលចាប់អារម្មណ៍">Course of interest</span><select id="courseChoice" class="field"></select></label>
+    <label><span data-en="Learning format" data-km="ទម្រង់សិក្សា">Learning format</span><select id="classFormat" class="field"><option>Group class</option><option>Private class</option></select></label>
+    <label><span data-en="Experience level" data-km="កម្រិតបទពិសោធន៍">Experience level</span><select id="level" class="field"><option>Beginner / អ្នកចាប់ផ្តើម</option><option>Some experience / មានបទពិសោធន៍ខ្លះ</option><option>Advanced / កម្រិតខ្ពស់</option></select></label>
+    <label><span data-en="Message (optional)" data-km="សារបន្ថែម (មិនចាំបាច់)">Message (optional)</span><textarea id="studentMessage" class="field" rows="3" placeholder="Your questions / សំណួររបស់អ្នក"></textarea></label>
+    <button class="btn full" type="submit" data-en="Submit enrollment inquiry →" data-km="បញ្ជូនសំណើចុះឈ្មោះ →">Submit enrollment inquiry →</button>
+  </form>
+  <p class="notice" data-en="Submitting sends an application to the studio for review. It does not reserve a seat or process a payment. After submitting, message us on Telegram to discuss your questions, schedule and payment." data-km="ការបញ្ជូននេះផ្ញើសំណើទៅស្ទូឌីយោដើម្បីពិនិត្យប៉ុណ្ណោះ។ វាមិនទាន់កក់កន្លែង ឬដំណើរការទូទាត់ទេ។ បន្ទាប់ពីបញ្ជូន សូមផ្ញើសារមកយើងតាម Telegram ដើម្បីពិភាក្សាអំពីសំណួរ កាលវិភាគ និងការទូទាត់។">Submitting sends an application to the studio for review. It does not reserve a seat or process a payment. After submitting, message us on Telegram to discuss your questions, schedule and payment.</p>
+  <div id="formResult" class="error hidden"></div>
+  <div class="panel" style="margin-top:14px">
+    <strong data-en="Have questions before registering?" data-km="មានសំណួរមុនពេលចុះឈ្មោះមែនទេ?">Have questions before registering?</strong>
+    <p class="muted" data-en="Chat directly with the studio about courses, class formats, schedules and fees." data-km="ជជែកជាមួយស្ទូឌីយោដោយផ្ទាល់អំពីវគ្គសិក្សា ទម្រង់ថ្នាក់ កាលវិភាគ និងតម្លៃ។">Chat directly with the studio about courses, class formats, schedules and fees.</p>
+    <a class="btn" href="https://t.me/28.DECSTUDIO" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none" data-en="Chat with the Studio on Telegram →" data-km="ជជែកជាមួយស្ទូឌីយោតាម Telegram →">Chat with the Studio on Telegram →</a>
+  </div>
+</section>
+</main>
+<footer class="footer">28.DEC STUDIO · START FROM ZERO<br><span style="letter-spacing:0">Start from Zero · Learn · Create · Present.</span></footer>
+</div>
+
+<script>
+/* Keep your valid public Telegram username here. Do not put the bot token in this file. */
+const TELEGRAM_USERNAME = "28.DECSTUDIO";
+const courses = [{"name":"AutoCAD","category":"Drafting","tag":"ARCHITECTURAL DRAFTING","desc":"Learn architectural drafting with AutoCAD from the basics. Build confidence with drawing tools, precision, layers, blocks and architectural documentation, then apply those skills to a complete beginner-level residential drawing set.","outcomes":["Navigate AutoCAD and configure drawing settings","Create and edit accurate 2D drawings","Organize drawings using layers and reusable blocks","Draft floor plans, sections, elevations and annotations","Prepare and export a clear architectural PDF drawing set"],"requirements":["No previous AutoCAD experience required.","A laptop or desktop capable of running the AutoCAD version used in class.","AutoCAD installed and ready for the first session.","A mouse is strongly recommended.","Stable internet connection for live online classes."],"project":"Small Residential Drawing Set","projectItems":["Architectural floor plan with walls, doors and windows","Furniture and fixture layout","Dimensions, text and annotations","One basic building section","Basic building elevations","Organized and plotted PDF drawing sheets"],"chapters":[{"title":"Chapter 1 — Getting Started with AutoCAD","sessions":[{"title":"Introduction & Drawing Setup","topics":["Understand AutoCAD and its role in architectural drafting","Explore the interface, workspace and navigation","Set drawing units and basic drawing settings","Save and organize drawing files","Practice: draw basic lines and shapes"]},{"title":"Basic Drawing & Precision","topics":["Use Line, Polyline, Circle, Rectangle and Arc","Understand Object Snap and tracking","Work with coordinates and accurate measurements","Practice: create a simple geometric drawing"]}]},{"title":"Chapter 2 — Essential Drawing & Editing Tools","sessions":[{"title":"Creating Architectural Shapes","topics":["Create basic geometry and closed shapes","Use Offset, Trim, Extend and Fillet","Create simple architectural symbols","Practice: draw doors, windows and furniture symbols"]},{"title":"Modify Tools","topics":["Use Move, Copy, Rotate and Mirror","Apply Scale, Stretch and Array","Erase and edit objects efficiently","Practice: complete a small architectural drawing"]}]},{"title":"Chapter 3 — Drawing Organization","sessions":[{"title":"Layers & Properties","topics":["Understand layers and their purpose","Set layer names, colors and lineweights","Manage object properties and linetypes","Practice: organize a drawing using architectural layers"]},{"title":"Blocks & Reusable Components","topics":["Create, insert and edit blocks","Manage reusable architectural symbols","Build a simple symbol library","Practice: create a small architectural block library"]}]},{"title":"Chapter 4 — Architectural Floor Plan","sessions":[{"title":"Building a Floor Plan","topics":["Understand the parts of a basic architectural plan","Draw walls and wall thickness","Create door and window openings","Practice: develop a simple floor plan"]},{"title":"Completing the Floor Plan","topics":["Add furniture and fixtures","Apply hatch patterns","Organize and refine the drawing","Practice: complete the architectural floor plan"]}]},{"title":"Chapter 5 — Architectural Documentation","sessions":[{"title":"Text & Dimensioning","topics":["Create and manage text styles","Set dimension styles and measurements","Use multileaders and drawing notes","Practice: annotate and dimension the floor plan"]},{"title":"Sections & Elevations","topics":["Understand basic architectural projections","Read and draft a simple section","Draft basic building elevations","Practice: create a section and elevation"]}]},{"title":"Chapter 6 — Professional Drawing Output","sessions":[{"title":"Layout & Plotting","topics":["Understand Model Space and Paper Space","Create layouts and viewports","Set drawing scale and page setup","Export and print PDF drawings"]},{"title":"Final Project & Presentation","topics":["Review the complete drawing set","Organize drawings and apply consistent standards","Make final corrections and export PDF sheets","Present the completed architectural drawing set"]}]}]},{"name":"SketchUp","category":"Modeling","tag":"ARCHITECTURAL 3D MODELING","desc":"Transform basic architectural ideas and 2D drawings into 3D models using SketchUp. Start with simple shapes, then develop a small building with structure, architectural elements, materials and presentation scenes.","outcomes":["Navigate SketchUp and understand the 3D workspace","Create and modify basic 3D geometry","Organize models using groups and components","Build basic architectural structures and forms","Apply materials and prepare presentation scenes"],"requirements":["No previous SketchUp experience required.","A laptop or desktop capable of running the SketchUp version used in class.","SketchUp installed before class.","A mouse is strongly recommended.","Stable internet connection for live online classes."],"project":"Small Residential 3D Model","projectItems":["Basic building structure and floor slabs","Exterior walls, doors and windows","Roof and selected architectural details","Basic interior furniture and site context","Applied materials and textures","Multiple presentation scenes and exported views"],"chapters":[{"title":"Chapter 1 — SketchUp Foundations","sessions":[{"title":"Introduction & 3D Workspace","topics":["Explore the SketchUp interface, toolbars and templates","Understand axes and 3D navigation: Orbit, Pan and Zoom","Use Select, Line and Rectangle tools","Practice: model simple 3D shapes"]},{"title":"Basic 3D Modeling","topics":["Use Push/Pull, Move and Offset","Understand faces and edges","Draw and edit simple 3D forms","Practice: model a simple furniture object"]}]},{"title":"Chapter 2 — Modeling & Organization","sessions":[{"title":"Groups & Components","topics":["Understand raw geometry and connected faces","Learn the difference between Groups and Components","Organize and edit model objects","Practice: create a reusable furniture set"]},{"title":"Essential Modification Tools","topics":["Use Rotate, Scale, Arc and Follow Me","Move objects accurately using measurements","Create simple profiles and architectural details","Practice: model a column and a small detail"]}]},{"title":"Chapter 3 — Building Structure","sessions":[{"title":"From 2D Plan to 3D","topics":["Import a prepared 2D drawing","Scale and position the plan accurately","Trace the basic structural layout","Practice: create a column layout"]},{"title":"Structural Modeling","topics":["Create basic slabs and beams","Model a simple building structure","Organize structural elements","Practice: complete a basic structural framework"]}]},{"title":"Chapter 4 — Architectural Modeling","sessions":[{"title":"Walls, Doors & Windows","topics":["Model exterior and interior walls","Create basic door and window openings","Understand simple opening workflows","Practice: develop the building exterior"]},{"title":"Roofs & Architectural Details","topics":["Create a basic roof form","Model stairs and selected architectural details","Check proportions and geometry","Practice: complete the building form"]}]},{"title":"Chapter 5 — Materials & Interior","sessions":[{"title":"Materials & Textures","topics":["Apply and edit SketchUp materials","Import custom textures","Control texture scale and positioning","Practice: apply materials to the building"]},{"title":"Interior & Site Context","topics":["Add basic furniture and interior assets","Use 3D Warehouse responsibly","Add simple landscape and site context","Explore useful plugins and their installation requirements","Practice: furnish and contextualize the model"]}]},{"title":"Chapter 6 — Scenes & Presentation","sessions":[{"title":"Scene Management","topics":["Set camera views and composition","Create and update scenes","Prepare plan, elevation and perspective views","Practice: organize a presentation scene set"]},{"title":"Final Project & Export","topics":["Refine and organize the completed model","Review groups, components and model structure","Export images and presentation views","Present the final 3D building model"]}]}]},{"name":"Photoshop","category":"Graphics","tag":"ARCHITECTURAL PRESENTATION","desc":"Turn architectural drawings and 3D images into clear, visually compelling presentations. Learn essential Photoshop tools, architectural collage, plan and section rendering, axonometric graphics and presentation-board design.","outcomes":["Use Photoshop tools, layers and masks confidently","Edit and combine architectural images","Create architectural collages and visual compositions","Render floor plans, sections and axonometric views","Design and export an architectural presentation board"],"requirements":["No previous Photoshop experience required.","A laptop or desktop capable of running the Photoshop version used in class.","Adobe Photoshop installed.","Sample architectural drawings and practice assets will be provided or specified by the instructor.","Stable internet connection for live online classes."],"project":"Architectural Presentation Board","projectItems":["Architectural concept or exterior collage","Rendered floor plan","Rendered section or elevation","Axonometric illustration or diagram","Graphic annotations and typography","Final presentation-board layout for print or digital display"],"chapters":[{"title":"Chapter 1 — Photoshop Foundations","sessions":[{"title":"Introduction & Workspace","topics":["Explore the interface, tools and workspaces","Understand image resolution, formats and dimensions","Import and place images","Organize layers and groups","Practice: create a simple architectural composition"]},{"title":"Essential Editing Tools","topics":["Use selection tools, crop and transform","Understand layer masks and erasing","Make basic color and brightness adjustments","Practice: edit and combine architectural images"]}]},{"title":"Chapter 2 — Architectural Collage","sessions":[{"title":"Building an Architectural Collage","topics":["Import 3D renders and reference images","Remove backgrounds and refine selections","Place materials, textures and colors","Use solid colors and gradients","Practice: create a simple exterior collage"]},{"title":"People, Trees & Atmosphere","topics":["Add people, trees and background elements","Use layer masks and blending modes","Create depth with foreground and background","Add basic lighting overlays","Practice: complete an architectural collage"]}]},{"title":"Chapter 3 — Architectural Plan Rendering","sessions":[{"title":"Plan Preparation & Color","topics":["Import CAD and PDF drawings","Clean and prepare architectural linework","Understand poche and floor finishes","Apply colors and textures","Practice: color a simple floor plan"]},{"title":"Plan Enhancement","topics":["Add furniture and landscape elements","Use layer masks and opacity","Create basic shadows and subtle textures","Refine the graphic hierarchy","Practice: complete a rendered floor plan"]}]},{"title":"Chapter 4 — Section & Elevation Rendering","sessions":[{"title":"Section Preparation","topics":["Import CAD and PDF sections or elevations","Understand cut lines and poche","Add materials and textures","Create a contextual background","Practice: prepare a basic architectural section"]},{"title":"Section Atmosphere","topics":["Add people, trees and interior elements","Use Levels and Curves adjustment layers","Apply sunlight and shadow overlays","Establish visual hierarchy","Practice: complete a rendered section"]}]},{"title":"Chapter 5 — Axonometric Representation","sessions":[{"title":"Axonometric Rendering","topics":["Import 3D views and prepare separate elements","Use layers to organize the composition","Apply flat colors and textures","Create a clean graphic background","Practice: create an axonometric illustration"]},{"title":"Exploded Views & Annotation","topics":["Understand the structure of an exploded diagram","Create dashed lines and graphic elements","Add labels and technical annotations","Organize visual information","Practice: create an annotated exploded view"]}]},{"title":"Chapter 6 — Presentation Board","sessions":[{"title":"Layout & Composition","topics":["Understand common presentation-board formats","Set up A0, A1 or A2 canvas dimensions","Use grids, guides, rulers and frames","Apply typography and visual hierarchy","Practice: arrange drawings on a presentation board"]},{"title":"Final Polish & Export","topics":["Refine the presentation-board layout","Check color consistency and image quality","Export for print and digital display","Present the completed architectural board"]}]}]},{"name":"Lumion","category":"Rendering","tag":"ARCHITECTURAL VISUALIZATION","desc":"Transform a 3D architectural model into a complete visualization using Lumion. Learn model importing, materials, environment design, lighting, camera composition and rendering through a guided practical workflow.","outcomes":["Navigate Lumion and set up a project","Import and manage architectural 3D models","Apply materials and create landscape environments","Control natural and artificial lighting","Compose cameras and produce rendered images"],"requirements":["Basic 3D modeling knowledge is recommended.","A prepared SketchUp or other Lumion-supported 3D model for practice.","A computer that meets the system requirements for the Lumion version being taught.","Lumion installed and activated as required.","Stable internet connection for live online classes."],"project":"Architectural Exterior Visualization","projectItems":["Imported and prepared building model","Material-finished architectural scene","Landscape and environmental context","Daytime and nighttime lighting setup","Multiple camera compositions","Final rendered images"],"chapters":[{"title":"Chapter 1 — Getting Started with Lumion","sessions":[{"title":"Introduction & Setup","topics":["Understand Lumion and its role in architectural visualization","Explore the interface and workspace","Learn navigation and basic controls","Set up a project and organize files","Practice: explore the Lumion environment"]},{"title":"Importing 3D Models","topics":["Prepare models from SketchUp and other supported software","Import and position a model","Check scale, rotation and alignment","Understand how to update imported models","Practice: import a simple building model"]}]},{"title":"Chapter 2 — Model & Material Management","sessions":[{"title":"Working with Models","topics":["Understand imported model organization","Manage model elements and layers","Identify and fix common import issues","Learn basic performance optimization","Practice: organize a building scene"]},{"title":"Applying Materials","topics":["Understand Lumion material categories","Apply and adjust materials","Work with wood, concrete, glass and metal","Control texture scale and reflections","Practice: create a material-finished building"]}]},{"title":"Chapter 3 — Landscape & Environment","sessions":[{"title":"Basic Environment Creation","topics":["Use terrain and landscape tools","Add grass, trees and plants","Create water and outdoor elements","Set up a simple site environment","Practice: develop the building surroundings"]},{"title":"Scene Development","topics":["Use environmental assets strategically","Place people, vehicles and vegetation","Create foreground and background depth","Organize scene elements","Practice: complete an exterior environment"]}]},{"title":"Chapter 4 — Lighting & Camera","sessions":[{"title":"Natural Lighting & Camera","topics":["Control sun position and time of day","Adjust sky and weather settings","Place and frame cameras","Apply basic composition techniques","Practice: create daytime camera views"]},{"title":"Artificial Lighting & Atmosphere","topics":["Add basic interior and exterior artificial lights","Adjust shadows and exposure","Set up a nighttime scene","Create mood and atmosphere","Practice: create a nighttime scene"]}]},{"title":"Chapter 5 — Rendering & Effects","sessions":[{"title":"Render Settings & Effects","topics":["Understand image output and render settings","Explore essential Lumion effects","Improve materials, lighting and shadows","Choose image resolution and export settings","Practice: render a first architectural image"]},{"title":"Improving Render Quality","topics":["Refine camera composition","Use additional effects to improve realism","Explore weather and atmospheric effects","Compare and improve render results","Practice: produce multiple final views"]}]},{"title":"Chapter 6 — Post-Production & Submission","sessions":[{"title":"Render Post-Production","topics":["Review rendered images","Make basic color corrections and image enhancements","Use basic Photoshop adjustments","Prepare final images","Practice: polish an architectural render"]},{"title":"Final Project & Presentation","topics":["Complete an exterior or interior visualization","Export final images","Review the project and receive feedback","Present the final renders"]}]}]},{"name":"V-Ray","category":"Rendering","tag":"PHOTOREALISTIC RENDERING","desc":"Build architectural rendering skills with V-Ray for SketchUp. Learn scene preparation, camera composition, lighting, realistic materials, render settings and basic post-production through a guided interior and exterior workflow.","outcomes":["Understand the V-Ray interface and rendering workflow","Prepare SketchUp models and scene assets","Set up cameras and image composition","Create natural and artificial lighting","Apply realistic materials and produce interior and exterior renders"],"requirements":["Basic SketchUp modeling knowledge is recommended.","A laptop or desktop capable of running compatible versions of SketchUp and V-Ray.","Compatible SketchUp and V-Ray versions installed.","Chaos account and asset access where required.","Stable internet connection for live online classes."],"project":"Interior & Exterior Visualization","projectItems":["Prepared architectural SketchUp model","Exterior material and lighting setup","Interior material and lighting setup","Multiple camera views","Final exterior render images","Final interior render images","Basic post-production of selected images"],"chapters":[{"title":"Chapter 1 — Introduction to V-Ray","sessions":[{"title":"Foundations & Setup","topics":["Understand V-Ray and architectural rendering","Explore the V-Ray interface for SketchUp","Identify V-Ray tools, lights, utilities and objects","Explore Chaos Cosmos and basic render settings","Practice: prepare a simple interior and exterior scene"]},{"title":"Model Preparation & Scene Setup","topics":["Prepare SketchUp models for rendering","Add furniture and background assets","Use Chaos Cosmos assets","Organize objects and scene elements","Practice: prepare a complete scene for rendering"]}]},{"title":"Chapter 2 — Camera & Composition","sessions":[{"title":"Camera Setup","topics":["Position cameras and use Safe Frame","Understand Field of View and Focal Length","Explore basic Depth of Field","Apply simple composition principles","Set up multiple camera views","Practice: prepare several camera angles"]},{"title":"Scene Composition & Preparation","topics":["Understand how camera views support an architectural story","Organize model assets for clear camera views","Adjust composition and framing for interior and exterior scenes","Save and manage multiple camera views","Practice: prepare a small set of presentation-ready views"]}]},{"title":"Chapter 3 — Lighting Fundamentals","sessions":[{"title":"Natural & Artificial Lighting","topics":["Understand basic lighting concepts","Use Sunlight and environment lighting","Explore Dome Light and basic artificial lights","Use Rectangle, Sphere and Spot lights","Introduction to IES lights","Practice: create a daytime lighting setup"]},{"title":"Lighting for Different Moods","topics":["Understand Key, Fill and Accent lighting","Arrange basic interior lighting","Compare daytime and nighttime lighting","Control exposure and shadows","Introduction to Light Mix","Practice: create two lighting moods"]}]},{"title":"Chapter 4 — Realistic Materials","sessions":[{"title":"Fundamental Materials","topics":["Explore the V-Ray Material Editor","Use the Material Library and Chaos Cosmos","Apply and edit materials","Understand reflection, roughness and color","Introduction to PBR materials","Practice: apply materials to a building"]},{"title":"Material Creation","topics":["Create wood, glass, metal and fabric materials","Understand material properties","Work with texture placement and UV mapping","Introduction to Blend and 2-Sided materials","Practice: create a realistic material collection"]}]},{"title":"Chapter 5 — Rendering & Visualization","sessions":[{"title":"Render Settings & Optimization","topics":["Understand image quality and render settings","Explore Interactive and Region Rendering","Introduction to Render Elements","Understand basic noise reduction and optimization","Practice: render and compare image quality"]},{"title":"Exterior Rendering","topics":["Prepare an exterior scene","Apply materials and lighting","Set camera composition and environment","Choose render settings and image output","Practice: produce multiple exterior views"]}]},{"title":"Chapter 6 — Interior Rendering & Final Submission","sessions":[{"title":"Interior Rendering","topics":["Prepare an interior scene","Apply interior materials and lighting","Set camera composition and exposure","Choose render settings and image output","Practice: produce multiple interior views"]},{"title":"Post-Production & Final Review","topics":["Use basic V-Ray Frame Buffer adjustments","Save and export rendered images","Enhance images with basic Photoshop editing","Review the complete workflow and receive feedback","Submit and present final interior and exterior images"]}]}]}];
+const categories=[["All","ទាំងអស់"],["Drafting","គំនូរបច្ចេកទេស"],["Modeling","ម៉ូដែល 3D"],["Rendering","រូបភាព Render"],["Graphics","ក្រាហ្វិក"]];
+let lang="en",filter="All",searchTerm="";
+const $=id=>document.getElementById(id);
+function showPage(id){
+ document.querySelectorAll("main>section").forEach(s=>s.classList.toggle("hidden",s.id!==id));
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
+const programLogos={
+ "AutoCAD":{src:"https://upload.wikimedia.org/wikipedia/commons/d/db/Autodesk_AutoCAD_Logo.svg",alt:"AutoCAD program logo"},
+ "SketchUp":{src:"https://upload.wikimedia.org/wikipedia/commons/6/64/SketchUp_logo.svg",alt:"SketchUp program logo"},
+ "Photoshop":{src:"https://upload.wikimedia.org/wikipedia/commons/3/30/Adobe_Photoshop_CC_2026_icon.svg",alt:"Adobe Photoshop app logo"},
+ "Lumion":{wordmark:"LUMION",alt:"Lumion program wordmark"},
+ "V-Ray":{src:"https://upload.wikimedia.org/wikipedia/commons/5/55/V-Ray_Logo_1.jpg",alt:"Chaos V-Ray program logo"}
+};
+function programLogo(name){const logo=programLogos[name];if(!logo)return `<span class="program-wordmark">${name}</span>`;return logo.src?`<img class="program-logo" src="${logo.src}" alt="${logo.alt}" loading="lazy">`:`<span class="program-wordmark" aria-label="${logo.alt}">${logo.wordmark}</span>`}
+function courseArt(i,c){return `<div class="cardart">${programLogo(c.name)}<span class="artlabel">SOFTWARE PROGRAM</span></div>`}
+function card(c,i){return `<button class="card" data-course="${c.name}">${courseArt(i,c)}<div class="cardbody"><div class="tag">${c.tag}</div><div class="cardtitle">${c.name}</div><div class="carddesc">${c.desc}</div><div class="cardmeta"><strong>${c.comingSoon?"Coming soon":`${c.chapters.reduce((n,ch)=>n+ch.sessions.length,0)} sessions`}</strong><span>${c.comingSoon?"In development →":"Explore course →"}</span></div></div></button>`}
+function bindCourseCards(root){root.querySelectorAll("[data-course]").forEach(b=>b.addEventListener("click",()=>showDetail(b.dataset.course)))}
+function renderCourses(){
+ const list=courses.filter(c=>(filter==="All"||c.category===filter)&&(`${c.name} ${c.category} ${c.tag} ${c.desc}`).toLowerCase().includes(searchTerm));
+ $("courseList").innerHTML=list.length?list.map(card).join(""):`<div class="panel muted">No courses found. Try another search.</div>`;
+ bindCourseCards($("courseList"));
+}
+function renderFilters(){
+ $("filters").innerHTML=categories.map(([en,km])=>`<button class="chip ${filter===en?"active":""}" data-filter="${en}">${lang==="km"?km:en}</button>`).join("");
+ $("filters").querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;renderFilters();renderCourses();$("detail").classList.add("hidden");$("courseList").classList.remove("hidden")}));
+}
+function showDetail(name){
+ const c=courses.find(x=>x.name===name);if(!c)return;
+ $("courseList").classList.add("hidden");$("filters").classList.add("hidden");$("searchRow")?.classList.add("hidden");
+ $("detail").classList.remove("hidden");
+ if(c.comingSoon){
+  $("detail").innerHTML=`<button class="linkbtn" id="backCourses">← Back to all courses</button><div class="detailtop"><div class="eyebrow">${c.tag} · 28.DEC STUDIO</div><h2>${c.name}</h2><p>${c.desc}</p><div class="detailtags"><span>Coming soon</span><span>Syllabus in development</span></div></div><div class="contentbox" style="margin-top:18px"><h3>Course announcement</h3><p class="muted">We are preparing the course structure and practical learning content. Follow the studio for updates when enrollment opens.</p></div>`;
+  $("backCourses").onclick=backToCourses;window.scrollTo({top:0,behavior:"smooth"});return;
+ }
+ const outcomes=c.outcomes.map(t=>`<div class="outcome"><span class="check">✓</span><span>${t}</span></div>`).join("");
+ const totalSessions=c.chapters.reduce((n,ch)=>n+ch.sessions.length,0);
+ const curriculum=c.chapters.map((ch,ci)=>`<details ${ci===0?"open":""}><summary>Chapter ${String(ci+1).padStart(2,"0")} · ${ch.title}<span class="chaptercount">${ch.sessions.length} ${ch.sessions.length===1?"session":"sessions"}</span></summary><div class="chapterbody">${ch.sessions.map((s,si)=>`<details class="sessionitem"><summary><span><small>SESSION ${String(c.chapters.slice(0,ci).reduce((n,x)=>n+x.sessions.length,0)+si+1).padStart(2,"0")}</small><b>${s.title}</b></span></summary><div class="sessioncontent">${s.focus?`<p class="focusline"><strong>Focus:</strong> ${s.focus}</p>`:""}<ul>${s.topics.map(t=>`<li>${t}</li>`).join("")}</ul></div></details>`).join("")}</div></details>`).join("");
+ $("detail").innerHTML=`
+ <button class="linkbtn" id="backCourses">← Back to all courses</button>
+ <div class="detailtop"><div class="eyebrow">${c.tag} · 28.DEC STUDIO</div><h2>${c.name}: Practical Skills for Architecture & Design</h2><p>${c.desc}</p><div class="detailtags"><span>Live online classes</span><span>${totalSessions} sessions</span><span>Start from zero</span><span>Guided practical project</span><span>Certificate on completion</span></div></div>
+ <div class="detailgrid"><div class="detailmain">
+  <div class="contentbox"><h3>What you'll learn</h3><div class="outcomes">${outcomes}</div></div>
+  <div class="contentbox"><h3>Course content</h3><p class="muted">Explore the complete syllabus, organized by chapter and session. Each session includes focused topics and practical learning activities.</p><div class="curriculum">${curriculum}</div></div>
+  <div class="contentbox"><h3>Requirements</h3><ul class="requirements">${(c.requirements||[]).map(t=>`<li>${t}</li>`).join("")}</ul></div>
+  <div class="contentbox"><h3>Final project: ${c.project||"Practical Course Project"}</h3><p class="muted">Students apply the skills from the course to complete a guided practical project.</p><ul class="requirements">${(c.projectItems||[]).map(t=>`<li>${t}</li>`).join("")}</ul></div>
+  <div class="contentbox"><h3>Who this course is for</h3><p class="muted">Students, aspiring architects, designers and creative professionals who want to build practical software skills for design and presentation work.</p></div>
+  <div class="contentbox"><h3>About the class</h3><p class="muted">Classes are delivered live online in small groups. The group program includes 12 sessions over 6 weeks, with two sessions per week. Private one-to-one classes can be arranged separately.</p></div>
+ </div>
+ <aside class="sidebox"><div class="previewart">${programLogo(c.name)}</div><div class="sidecontent"><div class="price">$50 <small>/ group program</small></div><ul><li>${totalSessions} course sessions</li><li>Live online learning</li><li>Beginner-friendly instruction</li><li>Certificate on completion</li><li>Weekend class options</li></ul><button class="btn full" id="detailJoin">Enroll / Ask about this course →</button><p class="smallnote">Private classes are available with flexible scheduling. Contact the studio for a quotation. Course dates and open seats are confirmed before enrollment.</p></div></aside></div>`;
+ $("backCourses").onclick=backToCourses;
+ $("detailJoin").onclick=()=>{showPage("join");$("courseChoice").value=name;};
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function backToCourses(){$("detail").classList.add("hidden");$("courseList").classList.remove("hidden");$("filters").classList.remove("hidden");$("courseSearch").parentElement.parentElement.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}
+
+function setLang(next){
+ lang=next;$("enBtn").classList.toggle("active",lang==="en");$("kmBtn").classList.toggle("active",lang==="km");document.documentElement.lang=lang==="km"?"km":"en";
+ document.querySelectorAll("[data-en][data-km]").forEach(el=>el.innerHTML=el.dataset[lang]);
+ renderFilters();renderCourses();
+}
+$("enBtn").onclick=()=>setLang("en");$("kmBtn").onclick=()=>setLang("km");
+$("courseSearch").addEventListener("input",e=>{searchTerm=e.target.value.toLowerCase().trim();renderCourses()});
+$("joinForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const result=$("formResult"),button=$("joinForm").querySelector('button[type="submit"]');
+ const tg=window.Telegram?.WebApp,initData=tg?.initData||"";
+ result.classList.remove("hidden");
+ if(!initData){result.textContent="Please open this form from Telegram to register.";return;}
+ button.disabled=true;
+ try{
+  const response=await fetch("https://twentyeightdecstudio-api.phansamrach28.workers.dev/api/register",{
+   method:"POST",headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({initData,fullName:$("studentName").value.trim(),course:$("courseChoice").value,experienceLevel:$("level").value,studentMessage:`Format: ${$("classFormat").value}. ${$("studentMessage").value.trim()}`})
+  });
+  const data=await response.json();
+  if(!response.ok||!data.success)throw new Error(data.message||"Registration failed. Please try again.");
+  const successMessage=lang==="km"?`បានដាក់ពាក្យជោគជ័យ! លេខពាក្យស្នើសុំ៖ #${data.applicationId}។ សូមផ្ញើសារមកយើងតាម Telegram ដើម្បីពិភាក្សាបន្ត។`:`Application #${data.applicationId} submitted successfully. Message the studio on Telegram to discuss the next steps.`;
+  result.classList.remove("error");
+  result.style.background="#edf0e9";
+  result.style.color="#35422f";
+  result.innerHTML=`${successMessage}<br><a href="https://t.me/${TELEGRAM_USERNAME}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:10px;font-weight:800;text-decoration:underline">${lang==="km"?"ជជែកជាមួយស្ទូឌីយោតាម Telegram →":"Chat with the Studio on Telegram →"}</a>`;
+  $("joinForm").reset();
+ }catch(error){result.textContent=error.message;}
+ finally{button.disabled=false;}
+});
+$("featured").innerHTML=courses.slice(0,3).map(card).join("");bindCourseCards($("featured"));
+$("courseChoice").innerHTML=courses.filter(c=>!c.comingSoon).map(c=>`<option>${c.name}</option>`).join("");
+renderFilters();renderCourses();
+if(window.Telegram?.WebApp){window.Telegram.WebApp.ready();window.Telegram.WebApp.expand();}
+</script>
+</body>
+</html>
